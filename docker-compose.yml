@@ -1,0 +1,12 @@
+services:
+  linky:
+    image: larsmikki/linky:latest
+    container_name: linky
+    ports:
+      - "3020:3020"
+    volumes:
+      - linky-data:/app/data
+    restart: unless-stopped
+
+volumes:
+  linky-data:

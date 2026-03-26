@@ -1,0 +1,23 @@
+# Claude Code
+.claude/
+CLAUDE.md
+
+# Local scripts
+build.bat
+
+node_modules/
+dist/
+client/dist/
+server/dist/
+
+# Database and user data
+server/data/linky.db
+server/data/icons/
+
+# Environment
+.env
+.env.local
+
+# OS
+.DS_Store
+Thumbs.db
