@@ -1,106 +1,77 @@
 # Linky
 
-A lightweight self-hosted web launcher with a modern desktop-like interface. Place shortcut icons on a grid-based desktop surface, organize them into groups, and access your links from any device.
+A lightweight self-hosted web launcher. Organize your bookmarks into a drag-and-drop grid with collapsible groups, auto-fetched favicons, and a clean desktop-like interface.
 
-## Features
+![Linky screenshot](screenshot.png)
 
-- **Desktop-style grid layout** with snap-to-grid positioning
-- **Shortcuts** with automatic favicon fetching and local caching
-- **Groups** with collapsible containers, custom colors, and titles
-- **Context menus** (right-click or long-press on touch) for all actions
-- **Arrange mode** for drag-and-drop repositioning
-- **Responsive** layout for mobile and desktop
-- **Server-side persistence** with SQLite — consistent across devices
-- **Manual icon upload** support with fallback letter tiles
+---
 
 ## Quick Start
 
-### Prerequisites
-
-- Node.js 18+
-- npm
-
-### Setup
+### Docker (recommended)
 
 ```bash
-# Install all dependencies
-npm run setup
-
-# Install root dev dependencies
-npm install
+docker run -d \
+  --name linky \
+  -p 3020:3020 \
+  -v linky-data:/app/data \
+  --restart unless-stopped \
+  larsmikki/linky:latest
 ```
 
-### Development
+Open http://localhost:3020
+
+### Docker Compose
 
 ```bash
-# Start both server (port 3001) and client dev server (port 5173)
-npm run dev
+curl -O https://raw.githubusercontent.com/larsmikki/linky/main/docker-compose.yml
+docker compose up -d
 ```
 
-Open http://localhost:5173 in your browser.
+Open http://localhost:3020
 
-### Production
-
-```bash
-# Build everything
-npm run build
-
-# Start the production server
-npm start
-```
-
-Open http://localhost:3001 in your browser.
+---
 
 ## Usage
 
-- **Right-click** the desktop background to add shortcuts, groups, or open settings
-- **Right-click** a shortcut to edit, change icon, move to group, or delete
-- **Right-click** a group to rename, change color, collapse, or delete
-- **Long-press** on touch devices for the same context menus
-- **Click** any shortcut to open its URL in a new tab
+- **Right-click** the background to add shortcuts or groups
+- **Right-click** a shortcut or group to edit, move, or delete
+- **Long-press** on touch devices works the same way
 - Enable **Arrange Mode** from the context menu to drag items around the grid
 
-## Project Structure
+---
 
-```
-linky/
-├── client/          # React + TypeScript frontend (Vite)
-│   └── src/
-│       ├── components/   # UI components
-│       ├── hooks/        # API client
-│       └── types/        # TypeScript types
-├── server/          # Express + TypeScript backend
-│   └── src/
-│       ├── db.ts         # SQLite schema and connection
-│       ├── favicon.ts    # Favicon fetching and caching
-│       ├── routes.ts     # REST API routes
-│       └── index.ts      # Server entry point
-└── package.json     # Root scripts
-```
+## Features
 
-## API Endpoints
+- Grid layout with drag-and-drop repositioning
+- Auto-fetched favicons with local caching
+- Collapsible groups with custom colors
+- Manual icon upload with fallback letter tiles
+- Import / export for backup and migration
+- Responsive — works on mobile and desktop
+- Data persisted in SQLite, consistent across devices
 
-| Method | Path | Description |
-|--------|------|-------------|
-| GET | /api/settings | Get all settings |
-| PUT | /api/settings | Update settings |
-| GET | /api/shortcuts | List all shortcuts |
-| POST | /api/shortcuts | Create shortcut |
-| PUT | /api/shortcuts/:id | Update shortcut |
-| DELETE | /api/shortcuts/:id | Delete shortcut |
-| POST | /api/shortcuts/:id/refresh-favicon | Re-fetch favicon |
-| POST | /api/shortcuts/:id/icon | Upload custom icon |
-| DELETE | /api/shortcuts/:id/icon | Remove custom icon |
-| GET | /api/groups | List all groups |
-| POST | /api/groups | Create group |
-| PUT | /api/groups/:id | Update group |
-| DELETE | /api/groups/:id | Delete group |
-| PUT | /api/layout | Batch update positions |
-| GET | /api/icons/:filename | Serve cached icon |
+---
+
+## Data Persistence
+
+Data is stored in a Docker volume (`linky-data`) at `/app/data` inside the container. To back up, export via the settings menu or copy the volume contents.
+
+---
+
+## Configuration
+
+| Environment variable | Default | Description |
+|---|---|---|
+| `PORT` | `3020` | Port the server listens on |
+| `DATA_DIR` | `/app/data` | Directory for database and icon cache |
+| `ALLOWED_ORIGINS` | `http://localhost:3020` | Comma-separated allowed CORS origins |
+
+---
 
 ## Tech Stack
 
 - **Frontend:** React 18, TypeScript, Vite
 - **Backend:** Express, TypeScript
-- **Database:** SQLite (via better-sqlite3)
-- **Icons:** sharp for image processing
+- **Database:** SQLite (via sql.js)
+- **Icons:** Sharp for image processing
