@@ -1,0 +1,37 @@
+# Claude Code
+.claude/
+CLAUDE.md
+
+# Local scripts
+build.bat
+deploy.bat
+deploy.ps1
+
+node_modules/
+dist/
+client/dist/
+server/dist/
+
+# Database and user data
+server/data/linky.db
+server/data/icons/
+
+# Environment
+.env
+.env.local
+
+# TypeScript build artifacts
+*.tsbuildinfo
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local planning notes
+tasks/
+# Added by code-review-graph
+.code-review-graph/

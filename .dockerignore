@@ -1,0 +1,26 @@
+node_modules
+client/node_modules
+server/node_modules
+client/dist
+server/dist
+
+.claude
+.git
+*.md
+
+# Root package files (Dockerfile uses client/ and server/ directly)
+package.json
+package-lock.json
+
+# Environment files (never include secrets in build context)
+.env
+.env.*
+
+# Dev artifacts not needed in image
+start-client.js
+start-client.mjs
+build.bat
+screenshot.png
+*.tsbuildinfo
+*.log
+npm-debug.log*
